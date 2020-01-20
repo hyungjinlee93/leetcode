@@ -12,30 +12,10 @@
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function(root, p, q) {
-  let lowest = null;
-  let helper = (node, p, q) => {
-      if (contains(node, p) && contains(node, q)) {
-         lowest = node;
-          if(node.left) {
-              helper(node.left, p, q);
-          }
-          if(node.right) {
-              helper(node.right, p, q);
-          }
-      }
+  if(root === null || root === p || root === q) {
+      return root;
   }
-  let contains = (node, a) => {
-      if (node.val === a.val) {
-          return true;
-      } 
-      if (node.left && contains(node.left, a)) {
-          return true;
-      }
-      if (node.right && contains(node.right, a)) {
-          return true;
-      }
-      return false;
-  }
-  helper(root, p , q);
-  return lowest;
+  let l = lowestCommonAncestor(root.left, p, q);
+  let r = lowestCommonAncestor(root.right, p, q);
+  return (l && r) ? root : (l || r);
 };
