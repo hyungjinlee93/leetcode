@@ -9,25 +9,36 @@ var exist = function(board, word) {
   }
   let startLetter = word[0];
   let locs = [];
-  let helper = (board, i, j, counter = 1) => {
-      board[i][j] === null;
-      console.log(board);
+  let helper = (grid, i, j, counter = 1, visited = {}) => {
+      visited[i+','+j] = true;
       if(word[counter] === undefined){
           return true;
       }
-      if(board[i + 1] !== undefined && board[i + 1][j] === word[counter]) {
-          return helper(board, i + 1, j, counter + 1);
+      let ip1 = i + 1;
+      let im1 = i - 1;
+      let jp1 = j + 1;
+      let jm1 = j - 1;
+      if(grid[i + 1] !== undefined && !visited[ip1 + ',' + j] && grid[i + 1][j] === word[counter]) {
+          if(helper(grid, i + 1, j, counter + 1, visited)) {
+              return true;
+          }
       }
-      if(board[i - 1] !== undefined && board[i - 1][j] === word[counter]) {
-          return helper(board, i + 1, j, counter + 1);
+      if(grid[i - 1] !== undefined && !visited[im1 + ',' + j] && grid[i - 1][j] === word[counter]) {
+          if(helper(grid, i - 1, j, counter + 1, visited)) {
+              return true;
+          }
       }
-      if(board[i][j + 1] === word[counter]) {
-          return helper(board, i + 1, j, counter + 1);
+      if(!visited[i + ',' + jp1] && grid[i][j + 1] === word[counter]) {
+          if (helper(grid, i, j + 1, counter + 1, visited)) {
+              return true;
+          }
       }
-      if(board[i][j - 1] === word[counter]) {
-          return helper(board, i + 1, j, counter + 1);
+      if(!visited[i + ',' + jm1] && grid[i][j - 1] === word[counter]) {
+          if (helper(grid, i, j - 1, counter + 1, visited)) {
+              return true;
+          }
       }
-      console.log(board);
+      delete visited[i+','+j];
       return false;
   }
   for(let i = 0; i < board.length; i++) {
