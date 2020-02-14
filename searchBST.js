@@ -11,25 +11,15 @@
  * @return {TreeNode}
  */
 var searchBST = function(root, val) {
-    if (root === null) {
+    if (root !== null) {
+        if (root.val === val) {
+            return root;
+        } else if (val < root.val) {
+            return searchBST(root.left, val);
+        } else {
+            return searchBST(root.right, val);
+        }
+    } else {
         return null;
     }
-    if (root.val === val) {
-        return root;
-    }
-    let queue = [];
-    let helper = (node) => {
-        if (node !== null) {
-            queue.push(node.left, node.right);
-            helper(node.left);
-            helper(node.right);
-        }
-    }
-    helper(root);
-    for(let i = 0; i < queue.length; i++) {
-        if(queue[i] !== null && queue[i].val === val) {
-            return queue[i];
-        }
-    }
-    return null;
 };
