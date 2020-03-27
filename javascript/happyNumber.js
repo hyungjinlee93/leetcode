@@ -3,41 +3,24 @@
  * @return {boolean}
  */
 var isHappy = function(n) {
-    let visited = new Set();
-    let helper = (n) => {
-        if (n === 1) {
-            return true;
-        } else if (visited.has(n)) {
+    let set = new Set();
+    let helper = (num) => {
+        if (set.has(num)) {
             return false;
-        }
-        if (memo[n] !== undefined) {
-            if (memo[n] === false) {
-                return false;
-            }
-            visited.add(n);
-            return helper(memo[n]);
         } else {
-            visited.add(n);
-            let n2 = n;
-            let m = 0;
-            while (n !== 0) {
-                m += (n % 10) * (n % 10);
-                n = Math.floor(n / 10);
+            set.add(num);
+            let newNum = 0;
+            while (num >= 1) {
+                let place = num % 10;
+                num = Math.floor(num / 10);
+                newNum += place * place;
             }
-            memo[n2] = m;
-            return helper(m);
+            if (newNum === 1) {
+                return true;
+            } else {
+                return helper(newNum);
+            }
         }
     }
-    if (helper(n)) {
-        visited.forEach(item => {
-            memo[item] = 1;
-        });
-        return true;
-    } else {
-        visited.forEach(item => {
-            memo[item] = false;
-        });
-        return false;
-    }
+    return helper(n);
 };
-var memo = {};
