@@ -1,16 +1,25 @@
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
 var permute = function(nums) {
+    let visited = new Set();
     let perms = [];
-    let helper = (arr, arr2 = []) => {
-        if (arr.length === 0) {
-            perms.push(arr2);
-        } else {
-            for (let i = 0; i < arr.length; i++) {
-                let arr3 = arr2.slice();
-                arr3.push(arr[i]);
-                helper(arr.slice(0, i).concat(arr.slice(i + 1)), arr3);
+    let helper = (perm = []) => {
+        for (let i = 0; i < nums.length; i++) {
+            if (!visited.has(nums[i])) {
+                visited.add(nums[i]);
+                perm.push(nums[i]);
+                if (perm.length === nums.length) {
+                    perms.push(perm.slice());
+                } else {
+                    helper(perm);
+                }
+                visited.delete(nums[i]);
+                perm.pop();
             }
         }
     }
-    helper(nums);
+    helper();
     return perms;
 };
