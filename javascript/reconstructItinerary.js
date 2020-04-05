@@ -16,7 +16,6 @@ var findItinerary = function (tickets) {
   let flights = new Set();
   let helper = (from, itin) => {
     for (let i = 0; i < map[from].length; i++) {
-      debugger;
       if (!flights.has(from + map[from][i])) {
         itin.push(map[from][i]);
         if (itin.length === tickets.length + 1) {
